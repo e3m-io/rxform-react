@@ -1,0 +1,58 @@
+{
+  "name": "@e3m-io/rxform-react",
+  "version": "0.0.0-development",
+  "description": "",
+  "keywords": [
+    "form",
+    "rxjs"
+  ],
+  "author": "e3m-io",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/e3m-io/rxform-react.git"
+  },
+  "homepage": "https://github.com/e3m-io/rxform-react",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dist": "babel src --out-dir dist --extensions .ts,.tsx",
+    "dist-types": "tsc",
+    "prepare": "node --run dist && node --run dist-types"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@preact/signals-react": "^3",
+    "json-ptr": "^3",
+    "lodash": "^4",
+    "react-compiler-runtime": "*",
+    "rxjs": "^7"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.27.2",
+    "@babel/core": "^7.27.4",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
+    "@preact/signals-react-transform": "^0.5.2",
+    "@types/lodash": "^4.17.17",
+    "babel-plugin-react-compiler": "19.1.0-rc.2",
+    "prettier": "3.5.3",
+    "typescript": "5.8.3"
+  },
+  "peerDependencies": {
+    "@types/react": ">=18",
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  },
+  "packageManager": "pnpm@10.12.1"
+}
