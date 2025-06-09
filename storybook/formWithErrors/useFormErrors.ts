@@ -4,8 +4,6 @@ import { useSignal } from "@preact/signals-react/runtime";
 import Ajv, { ErrorObject } from "ajv";
 import { useMemo } from "react";
 import { useEffect } from "react";
-import { memo } from "react";
-import { PropsWithChildren } from "react";
 
 export const useFormErrors = (
   form: ReturnType<typeof useForm>,
@@ -16,7 +14,9 @@ export const useFormErrors = (
     [form.state$]
   );
 
-  const $errors = useSignal(new Map());
+  const $errors = useSignal(
+    new Map<string, ErrorObject<string, Record<string, any>, unknown>[]>()
+  );
 
   useEffect(() => {
     const s = errors$.subscribe((errors) => {
@@ -56,9 +56,3 @@ const createErrors$ = (
       );
     })
   );
-
-export const ErrorProvider = memo(function ErrorProvider(
-  props: PropsWithChildren<{ form: ReturnType<typeof useForm> }>
-) {
-  return props.children;
-});
