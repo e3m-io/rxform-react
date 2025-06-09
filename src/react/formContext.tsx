@@ -3,7 +3,7 @@ import { type FormInstance } from "./useForm.ts";
 
 const formContext = createContext<FormInstance | null>(null);
 
-export const FormContextProvider = (
+export const FormProvider = (
   props: PropsWithChildren<{ form: FormInstance }>
 ) => {
   return (
