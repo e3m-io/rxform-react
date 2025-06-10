@@ -10,7 +10,7 @@ export default {
 
 export const Primary = () => {
   useSignals();
-  const form = useForm({ name: { given: "", family: "" } });
+  const form = useForm({ name: { given: "", family: "" }, email: "" });
   const formErrors = useFormErrors(form, formSchema);
   const hasErrors = useComputed(() => formErrors.$errors.value.size > 0);
   return (
@@ -31,6 +31,7 @@ export const Primary = () => {
           >
             <TextField name="/name/given" label="Given name" />
             <TextField name="/name/family" label="Family name" />
+            <TextField name="/email" label="Email" />
             <button type="submit" disabled={hasErrors.value}>
               Submit
             </button>
@@ -78,6 +79,10 @@ const formSchema = {
         },
       },
       required: ["given", "family"],
+    },
+    email: {
+      type: "string",
+      format: "email",
     },
   },
 };

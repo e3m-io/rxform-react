@@ -4,6 +4,7 @@ import { useSignal } from "@preact/signals-react/runtime";
 import Ajv, { ErrorObject } from "ajv";
 import { useMemo } from "react";
 import { useEffect } from "react";
+import addFormats from "ajv-formats";
 
 export const useFormErrors = (
   form: ReturnType<typeof useForm>,
@@ -39,7 +40,7 @@ const createErrors$ = (
   state$.pipe(
     switchMap((state) => {
       const ajv = new Ajv({ allErrors: true });
-
+      addFormats(ajv);
       const validate = ajv.compile(schema);
 
       validate(state);
