@@ -9,9 +9,16 @@ export const TextField = memo(function TextField(props: {
 }) {
   useSignals();
 
-  const { $dirty, $value, onChange, $errors, $hasErrors } = useField(
-    props.name
-  );
+  const {
+    $dirty,
+    $value,
+    onChange,
+    onCommit,
+    $errors,
+    $hasErrors,
+    $committed,
+    $submitted,
+  } = useField(props.name);
 
   return (
     <div>
@@ -24,10 +31,13 @@ export const TextField = memo(function TextField(props: {
           onInput={(e) => {
             onChange(e.currentTarget.value);
           }}
+          onBlur={() => {
+            onCommit();
+          }}
           value={$value.value as string}
         />
       </label>
-      {$dirty.value && $errors.value.length > 0 && (
+      {($submitted.value || $committed.value) && $errors.value.length > 0 && (
         <div>{$errors.value.at(0)!.message}</div>
       )}
     </div>

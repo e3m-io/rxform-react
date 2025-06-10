@@ -9,16 +9,17 @@ export default {
 };
 
 export const Primary = () => {
-  useSignals();
+  // useSignals();
   const form = useForm({ name: { given: "", family: "" }, email: "" });
   const formErrors = useFormErrors(form, formSchema);
-  const hasErrors = useComputed(() => formErrors.$errors.value.size > 0);
+  // const hasErrors = useComputed(() => formErrors.$errors.value.size > 0);
   return (
     <div>
       <FormProvider form={{ ...form, ...formErrors }}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            form.onSubmit();
             if (formErrors.$errors.peek().size !== 0) {
               console.log("Form has errors");
               return;
@@ -32,9 +33,7 @@ export const Primary = () => {
             <TextField name="/name/given" label="Given name" />
             <TextField name="/name/family" label="Family name" />
             <TextField name="/email" label="Email" />
-            <button type="submit" disabled={hasErrors.value}>
-              Submit
-            </button>
+            <button type="submit">Submit</button>
           </div>
         </form>
       </FormProvider>
@@ -83,6 +82,8 @@ const formSchema = {
     email: {
       type: "string",
       format: "email",
+      minLength: 1,
     },
   },
+  required: ["name", "email"],
 };

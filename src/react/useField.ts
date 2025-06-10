@@ -3,6 +3,8 @@ import { JsonPointer } from "json-ptr";
 import { get } from "lodash";
 import { useMemo } from "react";
 import { useFormContext } from "./formContext.tsx";
+import { useSignalFromObservable } from "../utilities.ts";
+import { filter, map, take } from "rxjs";
 
 /**
  * Provides state and change handlers for a given field
@@ -16,11 +18,29 @@ export const useField = (name: string) => {
     () => get(formContext.$state.value, path) as unknown
   );
 
+  const $committed = useSignalFromObservable(
+    useMemo(
+      () =>
+        formContext.commits$.pipe(
+          filter((field) => field === name),
+          map(() => true),
+          take(1)
+        ),
+      []
+    ),
+    false
+  );
+
   return {
+    $committed,
     $dirty,
+    $submitted: formContext.$submitted,
     $value,
     onChange: (v: unknown) => {
-      formContext.changes$.next([name, v]);
+      formContext.onChange(name, v);
+    },
+    onCommit: () => {
+      formContext.commits$.next(name);
     },
   } as const;
 };
