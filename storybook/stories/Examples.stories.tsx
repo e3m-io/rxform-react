@@ -1,7 +1,6 @@
-import { useComputed, useSignals } from "@preact/signals-react/runtime";
+import { useSignals } from "@preact/signals-react/runtime";
 import { TextField } from "../components/TextField";
-import { FormProvider } from "../../src/react/formContext";
-import { useForm } from "../../src/react/useForm";
+import { FormProvider, useForm } from "../../dist/index.js";
 import { useFormErrors } from "../formWithErrors/useFormErrors";
 
 export default {

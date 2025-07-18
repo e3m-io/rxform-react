@@ -2,7 +2,6 @@ import { Observable, of, switchMap } from "rxjs";
 import { useForm } from "../../src/react/useForm";
 import { useSignal } from "@preact/signals-react/runtime";
 import Ajv, { ErrorObject } from "ajv";
-import { useMemo } from "react";
 import { useEffect } from "react";
 import addFormats from "ajv-formats";
 
@@ -10,10 +9,7 @@ export const useFormErrors = (
   form: ReturnType<typeof useForm>,
   formSchema: Record<string, unknown>
 ) => {
-  const errors$ = useMemo(
-    () => createErrors$(form.state$, formSchema),
-    [form.state$]
-  );
+  const errors$ = createErrors$(form.state$, formSchema);
 
   const $errors = useSignal(
     new Map<string, ErrorObject<string, Record<string, any>, unknown>[]>()

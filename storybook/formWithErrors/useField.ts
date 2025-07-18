@@ -1,6 +1,5 @@
 import { useComputed } from "@preact/signals-react";
-import { useFormContext } from "../../src/react/formContext";
-import { useField as baseUseField } from "../../src/react/useField";
+import { useField as baseUseField, useFormContext } from "../../dist/index.js";
 import { useFormErrors } from "./useFormErrors";
 
 export const useField = (name: string) => {
@@ -9,10 +8,11 @@ export const useField = (name: string) => {
   > & { $errors: ReturnType<typeof useFormErrors>["$errors"] };
 
   const $errors = useComputed(() => $baseErrors.value.get(name) || []);
-
+  const $hasErrors = useComputed(() => $errors.value.length > 0);
+  const baseField = baseUseField(name);
   return {
-    ...baseUseField(name),
+    ...baseField,
     $errors,
-    $hasErrors: useComputed(() => $errors.value.length > 0),
+    $hasErrors,
   } as const;
 };

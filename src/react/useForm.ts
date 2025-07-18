@@ -10,28 +10,24 @@ import { map, Subject, take } from "rxjs";
  * Creates form state observables and signals
  */
 export const useForm = <S extends Record<string, unknown>>(initialState: S) => {
-  const changes$ = useMemo(() => createChanges$(), []);
-  const commits$ = useMemo(() => createCommits$(), []);
-  const submits$ = useMemo(() => new Subject<void>(), []);
+  const changes$ = createChanges$();
+  const commits$ = createCommits$();
+  const submits$ = new Subject<void>();
 
-  const state$ = useMemo(
-    () => createState$(changes$, initialState),
-    [changes$]
-  );
+  const state$ = createState$(changes$, initialState);
 
-  const dirty$ = useMemo(() => createDirty$(changes$), [changes$]);
+  const dirty$ = createDirty$(changes$);
 
   const $submitted = useSignalFromObservable(
-    useMemo(
-      () =>
-        submits$.pipe(
-          map(() => true),
-          take(1)
-        ),
-      []
+    submits$.pipe(
+      map(() => true),
+      take(1)
     ),
     false
   );
+
+  const $dirty = useSignalFromObservable(dirty$, new Set<string>());
+  const $state = useSignalFromObservable(state$, initialState);
 
   return {
     changes$,
@@ -39,8 +35,8 @@ export const useForm = <S extends Record<string, unknown>>(initialState: S) => {
     dirty$,
     state$,
     submits$,
-    $dirty: useSignalFromObservable(dirty$, new Set<string>()),
-    $state: useSignalFromObservable(state$, initialState),
+    $dirty,
+    $state,
     $submitted,
     onChange: (name: string, value: unknown) => {
       changes$.next([name, value]);
