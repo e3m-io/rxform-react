@@ -1,6 +1,6 @@
 import { useComputed } from "@preact/signals-react";
 import { JsonPointer } from "json-ptr";
-import { get } from "lodash";
+import get from "lodash/get.js";
 import { useFormContext } from "./formContext.tsx";
 import { useSignalFromObservable } from "../utilities.ts";
 import { filter, map, take } from "rxjs";

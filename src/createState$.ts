@@ -1,7 +1,7 @@
 import { scan, startWith } from "rxjs";
 import { createChanges$ } from "./createChanges$.ts";
 import { JsonPointer } from "json-ptr";
-import { set } from "lodash";
+import set from "lodash/set.js";
 
 /**
  * Merges all change events into the current state of the form
